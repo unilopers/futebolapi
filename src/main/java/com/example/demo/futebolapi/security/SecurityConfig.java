@@ -1,4 +1,4 @@
-package com.example.futebolapi.security;
+package com.example.demo.futebolapi.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
