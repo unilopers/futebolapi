@@ -13,8 +13,16 @@ public class TimeService {
     @Autowired
     private TimeRepository repository;
 
+    @Autowired
+    private TimeAsyncService timeAsyncService;
+
     public Time salvar(Time time) {
-        return repository.save(time);
+        Time timeSalvo = repository.save(time);
+
+        // Dispara o processamento em background sem bloquear a resposta
+        timeAsyncService.processarPosCadastro(timeSalvo);
+
+        return timeSalvo;
     }
 
     public List<Time> listarTodos() {
@@ -28,7 +36,6 @@ public class TimeService {
     public Time atualizar(Long id, Time novo) {
         Time existente = buscarPorId(id);
         if (existente == null) return null;
-
         existente.setNome(novo.getNome());
         return repository.save(existente);
     }
